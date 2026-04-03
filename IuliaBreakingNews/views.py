@@ -1,11 +1,11 @@
 """
-Views for the IuliaBreakingNews application.
-Handles authentication, articles, newsletters,
-publisher profiles, and team management.
-
-All views use Django's login_required decorator.
-Role-based access is enforced via custom decorators
-defined in decorators.py.
+IuliaBreakingNews Views
+ModuleThis module defines the view logic for the IuliaBreakingNews Django application.
+It includes views for displaying news articles, managing user interactions,
+and handling API endpoints for external data consumption.
+Dependencies:
+    - Django's authentication system
+    - Custom decorators for role-based access control
 """
 
 import logging
