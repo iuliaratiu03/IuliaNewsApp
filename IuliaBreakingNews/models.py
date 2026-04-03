@@ -1,12 +1,11 @@
 """
-Database models for the IuliaBreakingNews application.
-Defines CustomUser, Article, and Newsletter.
-Publisher is a CustomUser with role='publisher'.
-
-Modules:
-    - CustomUser: Extended user model with role-based access.
-    - Article: News article written by a journalist.
-    - Newsletter: Curated collection of approved articles.
+models.py - IuliaBreakingNews
+Defines the database schema for the IuliaBreakingNews application.
+All models inherit from Django's base Model class.
+Models:
+- CustomUser: Extended user model with role-based fields.
+- Article: Represents a news article written by a journalist.
+- Newsletter: A curated collection of approved articles.
 """
 
 from django.contrib.auth.models import AbstractUser, Group
