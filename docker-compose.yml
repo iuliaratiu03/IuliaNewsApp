@@ -7,8 +7,8 @@ services:
     environment:
       MYSQL_DATABASE: iulia_news_db
       MYSQL_USER: iulia_user
-      MYSQL_PASSWORD: iulia_password
-      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_PASSWORD: iulia2026@
+      MYSQL_ROOT_PASSWORD: iulia2026@
     ports:
       - "3306:3306"
     volumes:
