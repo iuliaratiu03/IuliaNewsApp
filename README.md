@@ -50,6 +50,9 @@ SECRET_KEY=your-secret-key
 DEBUG=True
 ```
 
+> ⚠️ **Never commit your `.env` file to a public repository.**
+> Use `.env.example` as a template and fill in your own values.
+
 **5. Create the database** in MariaDB:
 ```sql
 CREATE DATABASE iulia_news_db
@@ -77,6 +80,33 @@ python manage.py runserver
 ```
 
 The application will be available at `http://127.0.0.1:8000/`
+
+---
+
+## 🐳 Setup with Docker
+
+### Prerequisites
+- Docker installed on your machine ([Download Docker](https://www.docker.com/get-started))
+
+### Steps
+
+**1. Create your `.env` file** as described above (required before building)
+
+**2. Build the Docker image**
+```bash
+docker build -t iulianewsapp .
+```
+
+**3. Run the container**
+```bash
+docker run -p 8000:8000 --env-file .env iulianewsapp
+```
+
+The application will be available at `http://localhost:8000/`
+
+> ⚠️ **Note:** When running with Docker, make sure your database host
+> in `.env` is accessible from inside the container.
+> If using a local MariaDB, set `DB_HOST=host.docker.internal` instead of `localhost`.
 
 ---
 
@@ -256,6 +286,8 @@ python manage.py test IuliaBreakingNews.tests.SignalTests --verbosity=2
 - **Email:** Django console email backend (development)
 - **Signals:** Django post_save signals
 - **Frontend:** Bootstrap 5.3
+- **Containerisation:** Docker
+- **Documentation:** Sphinx
 
 ---
 
@@ -279,14 +311,24 @@ IuliaNewsApp/
 │   ├── api_urls.py             # API URL patterns
 │   └── migrations/
 │       └── 0003_create_groups.py  # Auto-creates groups on migrate
+├── docs/                       # Sphinx documentation
+│   └── _build/html/            # Generated HTML docs (open index.html)
 ├── templates/
 │   ├── base.html
 │   ├── auth/                   # Login, register, password templates
 │   ├── articles/               # Article templates
 │   ├── newsletters/            # Newsletter templates
 │   └── publishers/             # Publisher templates
+├── Dockerfile                  # Docker configuration
 ├── .env                        # Environment variables (not committed)
 ├── .env.example                # Environment template
 ├── requirements.txt
 └── manage.py
 ```
+
+---
+
+## 📚 Documentation
+
+Full Sphinx documentation is available in the `docs/_build/html/` folder.
+Open `docs/_build/html/index.html` in your browser to view it.
