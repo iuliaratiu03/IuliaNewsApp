@@ -7,7 +7,7 @@ from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 from django.core.management.base import BaseCommand
 
-from LorenasGossip.models import Article, Newsletter
+from IuliaBreakingNews.models import Article, Newsletter
 
 
 class Command(BaseCommand):
