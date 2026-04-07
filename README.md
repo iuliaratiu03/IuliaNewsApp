@@ -7,7 +7,7 @@ subscriptions, and automated email notifications.
 
 ---
 
-## 🚀 Installation
+## 🚀 Installation with Virtual Environment
 
 ### Prerequisites
 - Python 3.10+
@@ -18,7 +18,7 @@ subscriptions, and automated email notifications.
 
 **1. Clone the repository**
 ```bash
-git clone https://github.com/your-username/IuliaNewsApp.git
+git clone https://github.com/iuliaratiu03/IuliaNewsApp.git
 cd IuliaNewsApp
 ```
 
@@ -45,7 +45,7 @@ DB_NAME=iulia_news_db
 DB_USER=your_db_user
 DB_PASSWORD=your_db_password
 DB_HOST=localhost
-DB_PORT=your_db_port
+DB_PORT=3306
 SECRET_KEY=your-secret-key
 DEBUG=True
 ```
@@ -83,30 +83,49 @@ The application will be available at `http://127.0.0.1:8000/`
 
 ---
 
-## 🐳 Setup with Docker
+## 🐳 Setup with Docker Compose
 
 ### Prerequisites
-- Docker installed on your machine ([Download Docker](https://www.docker.com/get-started))
+- Docker and Docker Compose installed ([Download Docker](https://www.docker.com/get-started))
 
 ### Steps
 
-**1. Create your `.env` file** as described above (required before building)
-
-**2. Build the Docker image**
-```bash
-docker build -t iulianewsapp .
+**1. Create your `.env` file** in the root directory (copy from `.env.example` and fill in your values):
+```
+DB_ENGINE=django.db.backends.mysql
+DB_NAME=iulia_news_db
+DB_USER=your_db_user
+DB_PASSWORD=your_db_password
+DB_HOST=db
+DB_PORT=3306
+SECRET_KEY=your-secret-key
+DEBUG=True
 ```
 
-**3. Run the container**
+> ⚠️ When using Docker Compose, set `DB_HOST=db` (not `localhost`),
+> as services communicate via their service names defined in `docker-compose.yml`.
+
+**2. Build and start all services**
 ```bash
-docker run -p 8000:8000 --env-file .env iulianewsapp
+docker-compose up --build
+```
+
+**3. Run migrations** (in a separate terminal)
+```bash
+docker-compose exec web python manage.py migrate
+```
+
+**4. Create a superuser**
+```bash
+docker-compose exec web python manage.py createsuperuser
 ```
 
 The application will be available at `http://localhost:8000/`
 
-> ⚠️ **Note:** When running with Docker, make sure your database host
-> in `.env` is accessible from inside the container.
-> If using a local MariaDB, set `DB_HOST=host.docker.internal` instead of `localhost`.
+**5. Stop all services**
+```bash
+docker-compose down
+```
 
 ---
 
@@ -280,13 +299,13 @@ python manage.py test IuliaBreakingNews.tests.SignalTests --verbosity=2
 
 ## 🛠️ Tech Stack
 
-- **Backend:** Django 5+, Django REST Framework
+- **Backend:** Django 6+, Django REST Framework
 - **Database:** MariaDB
 - **Authentication:** DRF Token Authentication
 - **Email:** Django console email backend (development)
 - **Signals:** Django post_save signals
 - **Frontend:** Bootstrap 5.3
-- **Containerisation:** Docker
+- **Containerisation:** Docker & Docker Compose
 - **Documentation:** Sphinx
 
 ---
@@ -298,30 +317,31 @@ IuliaNewsApp/
 ├── IuliaNewsApp/              # Project settings
 │   ├── settings.py
 │   └── urls.py
-├── IuliaBreakingNews/              # Main application
-│   ├── models.py               # CustomUser, Article, Newsletter
-│   ├── views.py                # Web views
-│   ├── api_views.py            # REST API views
-│   ├── serializers.py          # DRF serializers
-│   ├── permissions.py          # Custom role permissions (DRF)
-│   ├── decorators.py           # Custom role decorators (web views)
-│   ├── signals.py              # Post-save signals
-│   ├── forms.py                # Django forms with validation
-│   ├── urls.py                 # Web URL patterns
-│   ├── api_urls.py             # API URL patterns
+├── IuliaBreakingNews/         # Main application
+│   ├── models.py              # CustomUser, Article, Newsletter
+│   ├── views.py               # Web views
+│   ├── api_views.py           # REST API views
+│   ├── serializers.py         # DRF serializers
+│   ├── permissions.py         # Custom role permissions (DRF)
+│   ├── decorators.py          # Custom role decorators (web views)
+│   ├── signals.py             # Post-save signals
+│   ├── forms.py               # Django forms with validation
+│   ├── urls.py                # Web URL patterns
+│   ├── api_urls.py            # API URL patterns
 │   └── migrations/
 │       └── 0003_create_groups.py  # Auto-creates groups on migrate
-├── docs/                       # Sphinx documentation
-│   └── _build/html/            # Generated HTML docs (open index.html)
+├── docs/                      # Sphinx documentation
+│   └── _build/html/           # Generated HTML docs (open index.html)
 ├── templates/
 │   ├── base.html
-│   ├── auth/                   # Login, register, password templates
-│   ├── articles/               # Article templates
-│   ├── newsletters/            # Newsletter templates
-│   └── publishers/             # Publisher templates
-├── Dockerfile                  # Docker configuration
-├── .env                        # Environment variables (not committed)
-├── .env.example                # Environment template
+│   ├── auth/                  # Login, register, password templates
+│   ├── articles/              # Article templates
+│   ├── newsletters/           # Newsletter templates
+│   └── publishers/            # Publisher templates
+├── Dockerfile                 # Docker configuration
+├── docker-compose.yml         # Docker Compose configuration
+├── .env                       # Environment variables (not committed)
+├── .env.example               # Environment template
 ├── requirements.txt
 └── manage.py
 ```
