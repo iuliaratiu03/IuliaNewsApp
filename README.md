@@ -10,7 +10,7 @@ subscriptions, and automated email notifications.
 ## 🚀 Installation with Virtual Environment
 
 ### Prerequisites
-- Python 3.10+
+- Python 3.12+
 - MariaDB 12+
 - pip
 
